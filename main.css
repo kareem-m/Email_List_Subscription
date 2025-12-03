@@ -15,19 +15,6 @@ body {
     background: linear-gradient(135deg, #0a0a0a, #121624, #050505);
     position: relative;
 
-    /* &::before {
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-image: linear-gradient(#ffffff08 1px, transparent 1px),
-            linear-gradient(to right, #ffffff08 1px, transparent 1px);
-        background-size: 100px 100px;
-        top: 0;
-        left: 0;
-        z-index: 0;
-    } */
-
     &::after {
         content: "";
         position: absolute;
@@ -91,7 +78,7 @@ main {
         font-size: 45px;
     }
 
-    .buttons {
+    .Mbuttons {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -159,6 +146,32 @@ main {
     #box2.active,
     #box3.active {
         display: block;
+    }
+
+    #box2 {
+        height: 180px;
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            button {
+                padding: 20px;
+                font-size: 18px;
+                cursor: pointer;
+                border-radius: 10px;
+                border: none;
+                transition: 0.5s;
+                color: #fff;
+                background-color: rgba(0, 0, 0, 0.207);
+                box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.256);
+                backdrop-filter: blur(4px);
+
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0.333);
+                    transform: translateY(-3px);
+                }
+            }
+        }
     }
 
     #box3 {
@@ -283,7 +296,7 @@ main {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.212);
+    background-color: rgba(0, 0, 0, 0.212);
     backdrop-filter: blur(5px);
     display: none;
 

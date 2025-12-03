@@ -135,7 +135,7 @@ $conn->close();
         <main>
             <h1>Email List Subscription</h1>
 
-            <div class="buttons">
+            <div class="Mbuttons">
                 <button id="button1">Manage Departments</button>
                 <button id="button2">Manage Employees</button>
                 <button id="button3">Manage Emails</button>
@@ -144,16 +144,48 @@ $conn->close();
             <div id="box1" class="box">
                 <i class="close">x</i>
             </div>
+
             <div id="box2" class="box">
                 <i class="close">x</i>
+
+                <div class="buttons">
+                    <button>Add Employee</button>
+                    <button>Remove Employee</button>
+                    <button>Update Employee</button>
+                </div>
+
+                <!-- <div class="addEmployee">
+                    <p>Add Emploee to Database</p>
+                    <form action="" method="post">
+                        <input type="text" id="add_employee" name="add_employee" placeholder="Enter employee SSN" required>
+                        <input type="submit" value="Add">
+                    </form>
+                </div>
+
+                <div class="removeEmployee">
+                    <p>Remove Employee from Database</p>
+                    <form action="" method="post">
+                        <input type="text" id="remove_employee" name="remove_employee" placeholder="Enter employee SSN" required>
+                        <input type="submit" value="Remove">
+                    </form>
+                </div> -->
+
+                <!-- <div class="updateEmployee">
+                    <p>Update Full Name</p>
+                    <form action="" method="post">
+                        <input type="text" id="updateFName" name="updateFName" placeholder="" required>
+                        <input type="submit" value="Remove">
+                    </form>
+                </div> -->
             </div>
+
             <div id="box3" class="box">
                 <i class="close">x</i>
 
                 <div class="addEmail">
                     <p>Add Email to Database</p>
                     <form action="" method="post">
-                        <input type="email" id="email" name="email" placeholder="Enter email" required>
+                        <input type="email" id="add_email" name="add_email" placeholder="Enter email" required>
                         <input type="submit" value="Add">
                     </form>
                 </div>
@@ -162,7 +194,7 @@ $conn->close();
                     <p>Remove Email from Database</p>
                     <form action="" method="post">
                         <input type="email" id="remove_email" name="remove_email" placeholder="Enter email" required>
-                        <input type="submit" name="remove_submit" value="Remove">
+                        <input type="submit" value="Remove">
                     </form>
                 </div>
 
