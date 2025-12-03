@@ -1,8 +1,8 @@
 CREATE TABLE departments (
     Dnum INT AUTO_INCREMENT PRIMARY KEY,
     Dname VARCHAR(100) NOT NULL UNIQUE,
-    Mgr_SSN CHAR(14),                
-    Mgr_Start_Date DATE,        
+    Mgr_SSN CHAR(14),
+    Mgr_Start_Date DATE,
     Locations VARCHAR(100)
 );
 
@@ -17,10 +17,10 @@ CREATE TABLE employees (
     Salary DECIMAL(10, 2),
     JobTitle VARCHAR(50),
     Dno INT,
-    SuperSSN CHAR(14),               
-    Phone CHAR(13),          
+    SuperSSN CHAR(14),
+    Phone CHAR(13),
     FOREIGN KEY (Dno) REFERENCES departments(Dnum),
-    FOREIGN KEY (SuperSSN) REFERENCES employees(SSN) 
+    FOREIGN KEY (SuperSSN) REFERENCES employees(SSN)
 );
 
 CREATE TABLE subscriptions (
@@ -31,5 +31,5 @@ CREATE TABLE subscriptions (
 
 
 ALTER TABLE departments
-ADD CONSTRAINT fk_dept_mgr 
-    FOREIGN KEY (Mgr_SSN) REFERENCES employees(SSN) 
+ADD CONSTRAINT fk_dept_mgr
+    FOREIGN KEY (Mgr_SSN) REFERENCES employees(SSN)
