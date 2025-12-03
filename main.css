@@ -162,19 +162,17 @@ main {
     }
 
     #box3 {
-        p {
-            display: block;
-            font-size: 18px;
-        }
-
         .addEmail,
-        .removeEmail {
+        .removeEmail,
+        .import,
+        .export { 
             form {
                 display: flex;
                 justify-content: center;
                 flex-direction: column;
 
-                input[type="email"] {
+                input[type="email"],
+                input[type="file"] { 
                     width: 100%;
                     padding: 15px;
                     margin-top: 10px;
@@ -184,8 +182,10 @@ main {
                     background-color: #282c34;
                     color: #fff;
                     outline: none;
+                    cursor: pointer; 
                 }
 
+                
                 input[type="submit"] {
                     margin: 20px auto;
                     width: 100%;
@@ -195,35 +195,13 @@ main {
                     font-size: 16px;
                     cursor: pointer;
                     transition: background-color 0.3s ease;
+                    background-color: #ffffff1a; 
+                    color: white;
+                    
+                    &:hover {
+                        background-color: #ffffff4d;
+                    }
                 }
-            }
-        }
-
-        .removeEmail {
-            p {
-                margin-top: 10px;
-            }
-
-            input[type="submit"] {
-                margin-bottom: 0;
-            }
-        }
-
-        .import,
-        .export {
-            p {
-                margin-top: 10px;
-            }
-
-            button {
-                margin: 20px auto;
-                display: block;
-                width: 100%;
-                padding: 8px;
-                border: none;
-                border-radius: 5px;
-                font-size: 16px;
-                cursor: pointer;
             }
         }
     }
