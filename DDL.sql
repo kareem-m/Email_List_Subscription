@@ -3,7 +3,7 @@ CREATE TABLE departments (
     Dname VARCHAR(100) NOT NULL UNIQUE,
     Mgr_SSN CHAR(14),                
     Mgr_Start_Date DATE,        
-    Locations VARCHAR(100)
+    Location VARCHAR(100)
 );
 
 CREATE TABLE employees (
