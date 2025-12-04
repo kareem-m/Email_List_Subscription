@@ -14,12 +14,12 @@ $department = null;
 $message = "";
 
 if (isset($_POST["search"])) {
+
     $depNum = $_POST["depNum"];
 
-    $sql = "SELECT d.Dnumber, d.Dname, d.Mgr_ssn, d.Mgr_start, dl.Dlocation
-            FROM department d
-            LEFT JOIN dept_locations dl ON d.Dnumber = dl.Dnumber
-            WHERE d.Dnumber = ?";
+    $sql = "SELECT Dnum, Dname, Mgr_SSN, Mgr_Start_Date, Locations
+            FROM departments
+            WHERE Dnum = ?";
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $depNum);
@@ -36,25 +36,20 @@ if (isset($_POST["search"])) {
 
 if (isset($_POST["update"])) {
 
-    $depNum = $_POST["depNum"];
-    $depName = $_POST["depName"];
-    $mgeSSN = $_POST["mgeSSN"];
-    $mgrStart = $_POST["mgrStartDate"];
-    $deptLocation = $_POST["deptLocation"];
+    $depNum       = $_POST["depNum"];
+    $depName      = $_POST["depName"];
+    $mgeSSN       = $_POST["mgeSSN"];
+    $mgrStartDate = $_POST["mgrStartDate"];
+    $location     = $_POST["deptLocation"];
 
-    $sql = "UPDATE department SET Dname = ?, Mgr_ssn = ?, Mgr_start = ? WHERE Dnumber = ?";
+    $sql = "UPDATE departments 
+            SET Dname = ?, Mgr_SSN = ?, Mgr_Start_Date = ?, Locations = ?
+            WHERE Dnum = ?";
+
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sisi", $depName, $mgeSSN, $mgrStart, $depNum);
+    $stmt->bind_param("ssssi", $depName, $mgeSSN, $mgrStartDate, $location, $depNum);
 
-    $ok1 = $stmt->execute();
-
-    $sql2 = "UPDATE dept_locations SET Dlocation = ? WHERE Dnumber = ?";
-    $stmt2 = $conn->prepare($sql2);
-    $stmt2->bind_param("si", $deptLocation, $depNum);
-
-    $ok2 = $stmt2->execute();
-
-    if ($ok1 && $ok2) {
+    if ($stmt->execute()) {
         $color = "#73AF6F";
         $message = "Department updated successfully.";
     } else {
@@ -73,9 +68,6 @@ if (isset($_POST["update"])) {
         <title>Update Department</title>
         <link rel="stylesheet" href="../manage.css">
         <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/14861/14861239.png">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     </head>
     <body>
 
@@ -96,19 +88,19 @@ if (isset($_POST["update"])) {
             <?php if ($department): ?>
             <form method="post">
 
-                <input type="hidden" name="depNum" value="<?= $department['Dnumber'] ?>">
+                <input type="hidden" name="depNum" value="<?= $department['Dnum'] ?>">
 
                 <label>Department Name:</label>
                 <input type="text" name="depName" required value="<?= $department['Dname'] ?>">
 
                 <label>Manager SSN:</label>
-                <input type="text" name="mgeSSN" required value="<?= $department['Mgr_ssn'] ?>">
+                <input type="text" name="mgeSSN" required value="<?= $department['Mgr_SSN'] ?>">
 
                 <label>Manager Start Date:</label>
-                <input type="date" name="mgrStartDate" required value="<?= $department['Mgr_start'] ?>">
+                <input type="date" name="mgrStartDate" required value="<?= $department['Mgr_Start_Date'] ?>">
 
                 <label>Department Location:</label>
-                <input type="text" name="deptLocation" required value="<?= $department['Dlocation'] ?>">
+                <input type="text" name="deptLocation" required value="<?= $department['Locations'] ?>">
 
                 <input type="submit" name="update" value="Update Department">
 
