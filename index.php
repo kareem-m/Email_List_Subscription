@@ -113,6 +113,12 @@ $conn->close();
             <!-- Start mngDepartmentBox -->
             <div id="mngDepartmentBox" class="mainBoxes">
                 <i class="close">x</i>
+
+                <div class="buttons">
+                    <button id="addDepartmentBtn" onclick="window.location.href='manageDepartment/addDepartment.php'">Add Department</button>
+                    <button id="removeDepartmentBtn" onclick="window.location.href='manageDepartment/removeDepartment.php'">Remove Department</button>
+                    <button id="updateDepartmentBtn" onclick="window.location.href='manageDepartment/updateDepartment.php'">Update Department</button>
+                </div>
             </div>
             <!-- End mngDepartmentBox -->
 
@@ -121,47 +127,10 @@ $conn->close();
                 <i class="close">x</i>
                 
                 <div class="buttons">
-                    <button id="addEmployeeBtn">Add Employee</button>
-                    <button id="removeEmployeeBtn">Remove Employee</button>
-                    <button id="updateEmployeeBtn">Update Employee</button>
+                    <button id="addEmployeeBtn" onclick="window.location.href='manageEmployees/addEmployee.php'">Add Employee</button>
+                    <button id="removeEmployeeBtn" onclick="window.location.href='manageEmployees/removeEmployee.php'">Remove Employee</button>
+                    <button id="updateEmployeeBtn" onclick="window.location.href='manageEmployees/updateEmployee.php'">Update Employee</button>
                 </div>
-                
-                <!-- Start addEmployeeBox -->
-                <div id="addEmployeeBox">
-                    <i class="close">x</i>
-
-                    <p>Add Emploee to Database</p>
-                    <form action="" method="post">
-                        <input type="text" id="add_employee" name="add_employee" placeholder="Enter employee SSN" required>
-                        <input type="submit" value="Add">
-                    </form>
-                </div>
-                <!-- End addEmployeeBox -->
-
-                <!-- Start removeEmployeeBox -->
-                <div id="removeEmployeeBox">
-                    <i class="close">x</i>
-                    
-                    <p>Remove Employee from Database</p>
-                    <form action="" method="post">
-                        <input type="text" id="remove_employee" name="remove_employee" placeholder="Enter employee SSN" required>
-                        <input type="submit" value="Remove">
-                    </form>
-                </div>
-                <!-- End removeEmployeeBox -->
-
-                <!-- Start updateEmployeeBox -->
-                <div id="updateEmployeeBox">
-                    <i class="close">x</i>
-                    
-                    <p>Update Full Name</p>
-                    <form action="" method="post">
-                        <input type="text" id="updateFName" name="updateFName" placeholder="" required>
-                        <input type="submit" value="Remove">
-                    </form>
-                </div>
-                <!-- End updateEmployeeBox -->
-
             </div>
             <!-- End mngEmployeeBox -->
 

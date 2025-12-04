@@ -4,8 +4,6 @@
     padding: 0;
 }
 
-
-
 body {
     font-family: "Poppins", sans-serif;
     background-color: #0e1217;
@@ -27,9 +25,7 @@ body {
         z-index: -1;
         animation: movement 20s infinite linear;
     }
-
 }
-
 
 @keyframes movement {
     0% {
@@ -118,10 +114,12 @@ main {
         transform: translate(-50%, -50%);
         transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
         z-index: 10;
+        pointer-events: none;
 
         &.active {
             opacity: 1;
             visibility: visible;
+            pointer-events: auto;
         }
 
         .close {
@@ -135,10 +133,7 @@ main {
         }
     }
 
-    /* #mngDepartmentBox {
-    } */
-
-    #mngEmployeeBox {
+    #mngEmployeeBox, #mngDepartmentBox {
         height: 180px;
 
         .buttons {
@@ -165,68 +160,6 @@ main {
                     transform: translateY(-3px);
                 }
             }
-        }
-
-        #addEmployeeBox,
-        #removeEmployeeBox,
-        #updateEmployeeBox {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 650px;
-            background-color: #1c1f26;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 9px 3px 10px #0000002b;
-            opacity: 0;
-            visibility: hidden;
-            transform: translate(-50%, -50%);
-            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-            z-index: 10;
-
-            &.active {
-                opacity: 1;
-                visibility: visible;
-            }
-
-            .close {
-                position: absolute;
-                top: 12px;
-                right: 20px;
-                font-size: 24px;
-                cursor: pointer;
-                color: #fff;
-                font-style: normal;
-            }
-
-            /* form {
-                display: flex;
-                justify-content: center;
-                flex-direction: column;
-
-                input[type="text"] {
-                    width: 100%;
-                    padding: 15px;
-                    margin-top: 10px;
-                    border: none;
-                    border-radius: 5px;
-                    font-size: 16px;
-                    background-color: #282c34;
-                    color: #fff;
-                    outline: none;
-                }
-
-                input[type="submit"] {
-                    margin: 20px auto;
-                    width: 100%;
-                    padding: 8px;
-                    border: none;
-                    border-radius: 5px;
-                    font-size: 16px;
-                    cursor: pointer;
-                    transition: background-color 0.3s ease;
-                }
-            } */
         }
     }
 
