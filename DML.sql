@@ -1,7 +1,7 @@
-INSERT INTO departments (Dnum, Dname, Location, Mgr_Start_Date) VALUES 
-(1, 'IT', 'Cairo', '2023-01-01'),
-(2, 'Human Resources', 'Alexandria', '2022-05-15'),
-(3, 'Sales', 'Giza', '2024-03-10');
+INSERT INTO departments (Dname, Locations, Mgr_Start_Date) VALUES 
+('IT', 'Cairo', '2023-01-01'),
+('Human Resources', 'Alexandria', '2022-05-15'),
+('Sales', 'Giza', '2024-03-10');
 
 INSERT INTO employees (SSN, Fname, Minit, Lname, Bdate, Address, Sex, Salary, JobTitle, Dno, Phone) VALUES 
 
@@ -17,7 +17,6 @@ INSERT INTO subscriptions (Email) VALUES
 ('visitor_two@yahoo.com'),
 ('loyal_customer@hotmail.com'),
 ('student@alexu.edu.eg');
-
 
 UPDATE departments SET Mgr_SSN = '10000000000001' WHERE Dnum = 1;
 
