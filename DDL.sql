@@ -13,12 +13,13 @@ CREATE TABLE employees (
     Lname VARCHAR(50) NOT NULL,
     Bdate DATE,
     Address VARCHAR(200),
-    Sex ENUM('Male', 'Female'),
+    Sex ENUM('Male', 'Female') NOT NULL,
     Salary DECIMAL(10, 2),
     JobTitle VARCHAR(50),
     Dno INT,
     SuperSSN CHAR(14),
-    Phone CHAR(13)
+    Phone CHAR(13),
+    CONSTRAINT Valid_Sex CHECK (Sex IN ('Male', 'Female'))
 );
 
 CREATE TABLE subscriptions (
