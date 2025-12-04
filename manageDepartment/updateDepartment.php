@@ -109,5 +109,6 @@ if (isset($_POST["update"])) {
             <?php endif; ?>
         </main>
 
+        <script src="../js/main.js"></script>
     </body>
 </html>

@@ -87,7 +87,8 @@ if (isset($_POST["update"])) {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Add Employees</title>
-        <link rel="stylesheet" href="../manage.css">
+        <link rel="stylesheet" href="../css/main.css">
+        <link rel="stylesheet" href="../css/manage.css">
         <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/14861/14861239.png">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -146,5 +147,7 @@ if (isset($_POST["update"])) {
             <?php endif; ?>
 
         </main>
+
+        <script src="../js/main.js"></script>
     </body>
 </html>
