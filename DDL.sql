@@ -18,7 +18,8 @@ CREATE TABLE employees (
     JobTitle VARCHAR(50),
     Dno INT,
     SuperSSN CHAR(14),
-    Phone CHAR(13)
+    Phone CHAR(13),
+    CONSTRAINT Valid_Sex CHECK (Sex IN ('Male', 'Female'))
 );
 
 CREATE TABLE subscriptions (
