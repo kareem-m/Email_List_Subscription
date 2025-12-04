@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $color = "#FF3838";
     } else {
 
-        $sqlInsert = "INSERT INTO departments (Dname, Mgr_SSN, Mgr_Start_Date, Location) VALUES (?, ?, ?, ?)";
+        $sqlInsert = "INSERT INTO departments (Dname, Mgr_SSN, Mgr_Start_Date, Locations) VALUES (?, ?, ?, ?)";
 
         $stmt2 = $conn->prepare($sqlInsert);
         $stmt2->bind_param("ssss", $depName, $mgrSSN, $startDate, $location);
@@ -54,7 +54,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Add Department</title>
-        <link rel="stylesheet" href="../manage.css">
+        <link rel="stylesheet" href="../css/main.css">
+        <link rel="stylesheet" href="../css/manage.css">
         <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/14861/14861239.png">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

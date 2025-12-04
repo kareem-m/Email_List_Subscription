@@ -89,7 +89,8 @@ $conn->close();
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Email List Subscription</title>
-        <link rel="stylesheet" href="main.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/home.css">
         <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/14861/14861239.png">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -172,6 +173,7 @@ $conn->close();
             <div class="line"></div>
         </div>
 
-        <script src="main.js"></script>
+        <script src="js/home.js"></script>
+        <script src="js/main.js"></script>
     </body>
 </html>

@@ -26,46 +26,33 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($result->num_rows === 0) {
         $message = "No department found with that number.";
         $color = "#FF3838";
-    } else {
+    } 
+    else {
+        $sqlMgrUpdate = "UPDATE departments SET Mgr_SSN = NULL WHERE Dnum = ?";
+        $stmtMgr = $conn->prepare($sqlMgrUpdate);
+        $stmtMgr->bind_param("i", $dNum);
+        $stmtMgr->execute();
 
-        $sqlEmpCheck = "SELECT * FROM employees WHERE Dno = ?";
-        $stmt2 = $conn->prepare($sqlEmpCheck);
-        $stmt2->bind_param("i", $dNum);
-        $stmt2->execute();
-        $empResult = $stmt2->get_result();
+        $sqlEmpUpdate = "UPDATE employees SET Dno = NULL WHERE Dno = ?";
+        $stmtEmp = $conn->prepare($sqlEmpUpdate);
+        $stmtEmp->bind_param("i", $dNum);
+        $stmtEmp->execute();
 
-        if ($empResult->num_rows > 0) {
-            $message = "Cannot delete this department because employees are assigned to it.";
-            $color = "#FF3838";
+        $sqlDelete = "DELETE FROM departments WHERE Dnum = ?";
+        $stmtDel = $conn->prepare($sqlDelete);
+        $stmtDel->bind_param("i", $dNum);
+
+        if ($stmtDel->execute()) {
+            $message = "Department deleted successfully. Any manager or employees assigned were detached first.";
+            $color = "#73AF6F";
         } else {
-
-            $sqlMgrCheck = "SELECT * FROM departments WHERE Dnum = ? AND Mgr_SSN IS NOT NULL";
-            $stmt3 = $conn->prepare($sqlMgrCheck);
-            $stmt3->bind_param("i", $dNum);
-            $stmt3->execute();
-            $mgrResult = $stmt3->get_result();
-
-            if ($mgrResult->num_rows > 0) {
-                $message = "Cannot delete department because it currently has a manager assigned.";
-                $color = "#FF3838";
-            } else {
-
-                $sqlDelete = "DELETE FROM departments WHERE Dnum = ?";
-                $stmt4 = $conn->prepare($sqlDelete);
-                $stmt4->bind_param("i", $dNum);
-
-                if ($stmt4->execute()) {
-                    $message = "Department removed successfully.";
-                    $color = "#73AF6F";
-                } else {
-                    $message = "Failed to remove department: " . $stmt4->error;
-                    $color = "#FF3838";
-                }
-            }
+            $message = "Failed to delete department: " . $stmtDel->error;
+            $color = "#FF3838";
         }
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>
@@ -74,7 +61,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Add Employees</title>
-        <link rel="stylesheet" href="../manage.css">
+        <link rel="stylesheet" href="../css/main.css">
+        <link rel="stylesheet" href="../css/manage.css">
         <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/14861/14861239.png">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
