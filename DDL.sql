@@ -13,7 +13,7 @@ CREATE TABLE employees (
     Lname VARCHAR(50) NOT NULL,
     Bdate DATE,
     Address VARCHAR(200),
-    Sex ENUM('Male', 'Female'),
+    Sex ENUM('Male', 'Female') NOT NULL,
     Salary DECIMAL(10, 2),
     JobTitle VARCHAR(50),
     Dno INT,
