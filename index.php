@@ -104,51 +104,69 @@ $conn->close();
         <main>
             <h1>Email List Subscription</h1>
 
-            <div class="Mbuttons">
-                <button id="button1">Manage Departments</button>
-                <button id="button2">Manage Employees</button>
-                <button id="button3">Manage Emails</button>
+            <div class="MainButtons">
+                <button id="mngDepartmentBtn">Manage Departments</button>
+                <button id="mngEmployeeBtn">Manage Employees</button>
+                <button id="mngEmailBtn">Manage Emails</button>
             </div>
 
-            <div id="box1" class="box">
+            <!-- Start mngDepartmentBox -->
+            <div id="mngDepartmentBox" class="mainBoxes">
                 <i class="close">x</i>
             </div>
+            <!-- End mngDepartmentBox -->
 
-            <div id="box2" class="box">
+            <!-- Start mngEmployeeBox -->
+            <div id="mngEmployeeBox" class="mainBoxes">
                 <i class="close">x</i>
-
+                
                 <div class="buttons">
-                    <button>Add Employee</button>
-                    <button>Remove Employee</button>
-                    <button>Update Employee</button>
+                    <button id="addEmployeeBtn">Add Employee</button>
+                    <button id="removeEmployeeBtn">Remove Employee</button>
+                    <button id="updateEmployeeBtn">Update Employee</button>
                 </div>
+                
+                <!-- Start addEmployeeBox -->
+                <div id="addEmployeeBox">
+                    <i class="close">x</i>
 
-                <!-- <div class="addEmployee">
                     <p>Add Emploee to Database</p>
                     <form action="" method="post">
                         <input type="text" id="add_employee" name="add_employee" placeholder="Enter employee SSN" required>
                         <input type="submit" value="Add">
                     </form>
                 </div>
+                <!-- End addEmployeeBox -->
 
-                <div class="removeEmployee">
+                <!-- Start removeEmployeeBox -->
+                <div id="removeEmployeeBox">
+                    <i class="close">x</i>
+                    
                     <p>Remove Employee from Database</p>
                     <form action="" method="post">
                         <input type="text" id="remove_employee" name="remove_employee" placeholder="Enter employee SSN" required>
                         <input type="submit" value="Remove">
                     </form>
-                </div> -->
+                </div>
+                <!-- End removeEmployeeBox -->
 
-                <!-- <div class="updateEmployee">
+                <!-- Start updateEmployeeBox -->
+                <div id="updateEmployeeBox">
+                    <i class="close">x</i>
+                    
                     <p>Update Full Name</p>
                     <form action="" method="post">
                         <input type="text" id="updateFName" name="updateFName" placeholder="" required>
                         <input type="submit" value="Remove">
                     </form>
-                </div> -->
-            </div>
+                </div>
+                <!-- End updateEmployeeBox -->
 
-            <div id="box3" class="box">
+            </div>
+            <!-- End mngEmployeeBox -->
+
+            <!-- Start mngEmailBox -->
+            <div id="mngEmailBox" class="mainBoxes">
                 <i class="close">x</i>
 
                 <div class="addEmail">
@@ -176,6 +194,7 @@ $conn->close();
                     <button>Export</button>
                 </div>
             </div>
+            <!-- End mngEmailBox -->
         </main>
 
         <div class="lines">

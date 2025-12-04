@@ -1,3 +1,4 @@
+// Popup Message
 const popup = document.getElementById('popup');
 if (popup) {
     setTimeout(() => {
@@ -5,39 +6,42 @@ if (popup) {
     }, 5000);
 }
 
+// Overlay Blur
 const overlay = document.createElement('div');
 overlay.id = 'overlay';
 document.body.appendChild(overlay);
 
-function showBox(id) {
-    const box = document.getElementById(id);
-    box.classList.add('active');
-    overlay.classList.add('active');
-}
+// Buttons and Boxes
+const buttons = ["mngDepartmentBtn", "mngEmployeeBtn", "mngEmailBtn"];
+const boxes = ["mngDepartmentBox", "mngEmployeeBox", "mngEmailBox"];
 
-function hideAllBoxes() {
-    const boxes = document.querySelectorAll('#box1, #box2, #box3');
-    boxes.forEach(box => box.classList.remove('active'));
-    overlay.classList.remove('active');
-}
-
-document.getElementById('button1').addEventListener('click', () => showBox('box1'));
-document.getElementById('button2').addEventListener('click', () => showBox('box2'));
-document.getElementById('button3').addEventListener('click', () => showBox('box3'));
-
-document.querySelectorAll('.close').forEach(btn => {
-    btn.addEventListener('click', hideAllBoxes);
-});
-
-document.addEventListener('click', function (e) {
-    const boxes = document.querySelectorAll('#box1, #box2, #box3');
-    boxes.forEach(box => {
-        if (box.classList.contains('active')) {
-            if (!box.contains(e.target) && !e.target.matches('button')) {
-                hideAllBoxes();
-            }
-        }
+// Open main boxes
+buttons.forEach((btnId, index) => {
+    document.getElementById(btnId).addEventListener('click', () => {
+        document.getElementById(boxes[index]).classList.add("active");
+        overlay.classList.add('active');
     });
 });
 
-overlay.addEventListener('click', hideAllBoxes);
+// Close buttons
+const closeBtns = document.querySelectorAll('.close');
+closeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        boxes.forEach(boxId => {
+            document.getElementById(boxId).classList.remove('active');
+        });
+        overlay.classList.remove('active');
+    });
+});
+
+// Close Boxes on Outside Click
+document.addEventListener('click', (e) => {
+    const clickedInsideBox = boxes.some(boxId => document.getElementById(boxId).contains(e.target));
+    const clickedButton = buttons.some(btnId => document.getElementById(btnId).contains(e.target));
+    if (!clickedInsideBox && !clickedButton) {
+        boxes.forEach(boxId => {
+            document.getElementById(boxId).classList.remove('active');
+        });
+        overlay.classList.remove('active');
+    }
+});
