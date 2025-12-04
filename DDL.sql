@@ -18,18 +18,27 @@ CREATE TABLE employees (
     JobTitle VARCHAR(50),
     Dno INT,
     SuperSSN CHAR(14),
-    Phone CHAR(13),
-    FOREIGN KEY (Dno) REFERENCES departments(Dnum),
-    FOREIGN KEY (SuperSSN) REFERENCES employees(SSN)
+    Phone CHAR(13)
 );
 
 CREATE TABLE subscriptions (
     ID INT AUTO_INCREMENT PRIMARY KEY,
     Email VARCHAR(150) UNIQUE NOT NULL,
-    SubscriptionDate DATETIME DEFAULT CURRENT_TIMESTAMP
+    SubscriptionDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (Email)
 );
-
 
 ALTER TABLE departments
 ADD CONSTRAINT fk_dept_mgr
-    FOREIGN KEY (Mgr_SSN) REFERENCES employees(SSN)
+FOREIGN KEY (Mgr_SSN) REFERENCES employees(SSN)
+ON DELETE SET NULL;
+
+ALTER TABLE employees
+ADD CONSTRAINT fk_supervisor
+FOREIGN KEY (SuperSSN) REFERENCES employees(SSN)
+ON DELETE SET NULL;
+
+ALTER TABLE employees
+ADD CONSTRAINT fk_employee_department
+FOREIGN KEY (Dno) REFERENCES departments(Dnum)
+ON DELETE SET NULL;
