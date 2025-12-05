@@ -1,8 +1,15 @@
 <?php
-$servername = "localhost";
-$username   = "root";
-$password   = "";
-$dbname     = "email_list_subscription";
+if ($_SERVER['HTTP_HOST'] === 'localhost') {
+    $servername = "localhost";
+    $username   = "root";
+    $password   = "";
+    $dbname     = "email_list_subscription";
+} else {
+    $servername = "sql104.infinityfree.com";
+    $username   = "if0_40608957";
+    $password   = "4nyYfkQDbBO";
+    $dbname     = "if0_40608957_email_list_subscription";
+}
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
