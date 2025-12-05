@@ -189,7 +189,7 @@ $conn->close();
                 <div class="import">
                     <p>Import Data</p>
                     <form action="" method="post" enctype="multipart/form-data">
-                        <input type="file" name="csv_file" accept=".csv" required style="color: white; margin-bottom: 10px;">
+                        <input type="file" name="csv_file" accept=".csv" required>
                         <input type="submit" name="import_submit" value="Upload & Import">
                     </form>
                 </div>
