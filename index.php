@@ -84,18 +84,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Export CSV
-        if (isset($_POST['export_submit'])) {
-        // Set headers to force download
+    if (isset($_POST['export_submit'])) {
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=email_list.csv');
         
-        // Open output stream
         $output = fopen('php://output', 'w');
         
-        // Write Column Headers
         fputcsv($output, array('ID', 'Email', 'Subscription Date'));
         
-        // Fetch Data
         $sql = "SELECT ID, Email, SubscriptionDate FROM subscriptions";
         $result = $conn->query($sql);
         
@@ -152,6 +148,7 @@ $conn->close();
                     <button id="addDepartmentBtn" onclick="window.location.href='manageDepartment/addDepartment.php'">Add Department</button>
                     <button id="removeDepartmentBtn" onclick="window.location.href='manageDepartment/removeDepartment.php'">Remove Department</button>
                     <button id="updateDepartmentBtn" onclick="window.location.href='manageDepartment/updateDepartment.php'">Update Department</button>
+                    <button id="viewDepartmentBtn" onclick="window.location.href='manageDepartment/viewDepartment.php'">View Departments</button>
                 </div>
             </div>
             <!-- End mngDepartmentBox -->
@@ -164,6 +161,7 @@ $conn->close();
                     <button id="addEmployeeBtn" onclick="window.location.href='manageEmployees/addEmployee.php'">Add Employee</button>
                     <button id="removeEmployeeBtn" onclick="window.location.href='manageEmployees/removeEmployee.php'">Remove Employee</button>
                     <button id="updateEmployeeBtn" onclick="window.location.href='manageEmployees/updateEmployee.php'">Update Employee</button>
+                    <button id="viewEmployeeBtn" onclick="window.location.href='manageEmployees/viewEmployee.php'">View Employee</button>
                 </div>
             </div>
             <!-- End mngEmployeeBox -->

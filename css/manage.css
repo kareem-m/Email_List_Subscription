@@ -3,13 +3,17 @@ main {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #1c1f26e9;
+    background-color: #1c1f26d9;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 9px 3px 10px #0000002b;
     width: 900px;
     height: 600px;
     overflow-y: auto;
+
+    &.view-employee-main {
+        width: 1200px;
+    }
 
     &::-webkit-scrollbar {
         width: 8px;
@@ -64,4 +68,49 @@ main {
         font-size: 16px;
         cursor: pointer;
     }
+}
+
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    text-align: left;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 9px 3px 10px #0000002b;
+
+    th {
+        padding: 14px 18px;
+        color: #fff;
+        font-weight: 600;
+        font-size: 15px;
+        background-color: #121821;
+        color: #e6e6e6;
+    }
+
+    td {
+        padding: 14px 18px;
+        font-size: 14px;
+        color: #cbd2e0;
+    }
+
+    tr:nth-child(odd) {
+        background-color: #1d222b;
+    }
+
+    tr:nth-child(even) {
+        background-color: #232a36;
+    }
+
+    tr:hover {
+        background-color: #2e3442;
+        transition: 0.3s;
+    }
+
+    i {
+        color: #ff6b6b;
+    }
+
 }
