@@ -1,4 +1,6 @@
 <?php
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
 if ($_SERVER['HTTP_HOST'] === 'localhost') {
     $servername = "localhost";
     $username   = "root";
@@ -13,15 +15,11 @@ if ($_SERVER['HTTP_HOST'] === 'localhost') {
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
 $department = null;
 $message = "";
+$color = "#FF3838";
 
 if (isset($_POST["search"])) {
-
     $depNum = $_POST["depNum"];
 
     $sql = "SELECT Dnum, Dname, Mgr_SSN, Mgr_Start_Date, Locations
@@ -36,7 +34,6 @@ if (isset($_POST["search"])) {
     if ($result->num_rows > 0) {
         $department = $result->fetch_assoc();
     } else {
-        $color = "#FF3838";
         $message = "No department found with that number.";
     }
 }
@@ -49,22 +46,47 @@ if (isset($_POST["update"])) {
     $mgrStartDate = $_POST["mgrStartDate"];
     $location     = $_POST["deptLocation"];
 
-    $sql = "UPDATE departments 
-            SET Dname = ?, Mgr_SSN = ?, Mgr_Start_Date = ?, Locations = ?
-            WHERE Dnum = ?";
+    // Check if department name exists in another row
+    $sqlCheck = "SELECT Dnum FROM departments WHERE Dname = ? AND Dnum != ?";
+    $stmtCheck = $conn->prepare($sqlCheck);
+    $stmtCheck->bind_param("si", $depName, $depNum);
+    $stmtCheck->execute();
+    $result1 = $stmtCheck->get_result();
 
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssi", $depName, $mgeSSN, $mgrStartDate, $location, $depNum);
-
-    if ($stmt->execute()) {
-        $color = "#73AF6F";
-        $message = "Department updated successfully.";
-    } else {
+    if ($result1->num_rows > 0) {
+        $message = "Error: This department name already exists.";
         $color = "#FF3838";
-        $message = "Update failed.";
+    }
+    else {
+
+        // Check if Manager SSN used in another department
+        $sqlCheckSSN = "SELECT Dnum FROM departments WHERE Mgr_SSN = ? AND Dnum != ?";
+        $stmtCheckSSN = $conn->prepare($sqlCheckSSN);
+        $stmtCheckSSN->bind_param("si", $mgeSSN, $depNum);
+        $stmtCheckSSN->execute();
+        $result2 = $stmtCheckSSN->get_result();
+
+        if ($result2->num_rows > 0) {
+            $message = "Error: This manager SSN is already assigned to another department.";
+            $color = "#FF3838";
+        } 
+        else {
+            $sql = "UPDATE departments 
+                    SET Dname = ?, Mgr_SSN = ?, Mgr_Start_Date = ?, Locations = ?
+                    WHERE Dnum = ?";
+
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ssssi", $depName, $mgeSSN, $mgrStartDate, $location, $depNum);
+            $stmt->execute();
+
+            $message = "Department updated successfully.";
+            $color = "#73AF6F";
+        }
     }
 }
+
 ?>
+
 
 
 <!DOCTYPE html>

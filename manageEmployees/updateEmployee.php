@@ -1,4 +1,5 @@
 <?php
+mysqli_report(MYSQLI_REPORT_OFF);
 if ($_SERVER['HTTP_HOST'] === 'localhost') {
     $servername = "localhost";
     $username   = "root";
@@ -18,6 +19,7 @@ if ($conn->connect_error) {
 }
 
 $employee = null;
+$color = "#FF3838";
 $message  = "";
 
 if (isset($_POST["search"])) {
@@ -39,53 +41,92 @@ if (isset($_POST["search"])) {
 
 if (isset($_POST["update"])) {
 
-    $ssn       = $_POST["empSSN"];
-    $fullName  = $_POST["empFullName"];
+    $ssn       = trim($_POST["empSSN"]);
+    $fullName  = trim($_POST["empFullName"]);
     $bdate     = $_POST["empBdate"];
-    $address   = $_POST["empAddress"];
-    $sex       = $_POST["empSex"];
+    $address   = trim($_POST["empAddress"]);
+    $sex       = trim($_POST["empSex"]);
     $salary    = $_POST["empSalary"];
-    $job       = $_POST["empJob"];
-    $phone     = $_POST["empPhone"];
+    $job       = trim($_POST["empJob"]);
+    $phone     = trim($_POST["empPhone"]);
     $dept      = $_POST["empDepartment"];
-    $super     = $_POST["empSupervisor"];
+    $super     = trim($_POST["empSupervisor"]);
 
-    $parts = explode(" ", $fullName);
-    $fname = $parts[0] ?? "";
-    $lname = $parts[count($parts)-1] ?? "";
-    $minit = isset($parts[1]) ? substr($parts[1], 0, 1) : "";
-
-    $sql = "UPDATE employees SET 
-                Fname = ?, 
-                Minit = ?, 
-                Lname = ?, 
-                Bdate = ?, 
-                Address = ?, 
-                Sex = ?, 
-                Salary = ?, 
-                JobTitle = ?, 
-                Dno = ?, 
-                SuperSSN = ?, 
-                Phone = ?
-            WHERE SSN = ?";
-
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssdissss",
-        $fname, $minit, $lname, $bdate, $address, $sex, 
-        $salary, $job, $dept, $super, $phone, $ssn
-    );
-
-    if ($stmt->execute()) {
-        $color = "#73AF6F";
-        $message = "Employee updated successfully.";
+    if (strlen($ssn) !== 14 || !ctype_digit($ssn)) {
+        $message = "SSN must be exactly 14 digits.";
+    } elseif (strlen($phone) !== 13 || !ctype_digit($phone)) {
+        $message = "Phone must be exactly 13 digits.";
+    } elseif (!empty($super) && (strlen($super) !== 14 || !ctype_digit($super))) {
+        $message = "Supervisor SSN must be exactly 14 digits if provided.";
+    } elseif ($ssn === $super) {
+        $message = "Employee cannot be their own supervisor.";
+    } elseif (!in_array($sex, ['Male', 'Female'])) {
+        $message = "Sex must be 'Male' or 'Female'.";
     } else {
-        $color = "#FF3838";
-        $message = "Update failed: " . $stmt->error;
+        $parts = explode(" ", $fullName);
+        if (count($parts) < 2) {
+            $message = "Full name must contain at least first and last name.";
+        } else {
+            $fname = $parts[0];
+            $minit = isset($parts[1]) ? substr($parts[1], 0, 1) : "";
+            $lname = $parts[2] ?? $parts[1];
+
+            if (!empty($super)) {
+                $check = $conn->prepare("SELECT SSN FROM employees WHERE SSN = ?");
+                $check->bind_param("s", $super);
+                $check->execute();
+                $check->store_result();
+                if ($check->num_rows === 0) {
+                    $message = "Supervisor SSN does not exist in database.";
+                }
+                $check->close();
+            }
+
+            if (!empty($dept)) {
+                $checkDept = $conn->prepare("SELECT Dnum FROM departments WHERE Dnum = ?");
+                $checkDept->bind_param("i", $dept);
+                $checkDept->execute();
+                $checkDept->store_result();
+                if ($checkDept->num_rows === 0) {
+                    $message = "Department number does not exist.";
+                }
+                $checkDept->close();
+            }
+
+            if (empty($message)) {
+                $sql = "UPDATE employees SET 
+                            Fname = ?, 
+                            Minit = ?, 
+                            Lname = ?, 
+                            Bdate = ?, 
+                            Address = ?, 
+                            Sex = ?, 
+                            Salary = ?, 
+                            JobTitle = ?, 
+                            Dno = ?, 
+                            SuperSSN = ?, 
+                            Phone = ?
+                        WHERE SSN = ?";
+
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param(
+                    "ssssssdissss",
+                    $fname, $minit, $lname, $bdate, $address, $sex,
+                    $salary, $job, $dept, $super, $phone, $ssn
+                );
+
+                if ($stmt->execute()) {
+                    $color = "#73AF6F";
+                    $message = "Employee updated successfully.";
+                } else {
+                    $color = "#FF3838";
+                    $message = "Update failed: " . $stmt->error;
+                }
+            }
+        }
     }
 }
-
 ?>
-
 
 
 <!DOCTYPE html>

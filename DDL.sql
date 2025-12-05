@@ -1,7 +1,7 @@
 CREATE TABLE departments (
     Dnum INT AUTO_INCREMENT PRIMARY KEY,
     Dname VARCHAR(100) NOT NULL UNIQUE,
-    Mgr_SSN CHAR(14),
+    Mgr_SSN CHAR(14) UNIQUE,
     Mgr_Start_Date DATE,
     Locations VARCHAR(100)
 );

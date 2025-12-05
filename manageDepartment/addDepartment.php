@@ -1,4 +1,7 @@
 <?php
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
+
 if ($_SERVER['HTTP_HOST'] === 'localhost') {
     $servername = "localhost";
     $username   = "root";
@@ -43,12 +46,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt2 = $conn->prepare($sqlInsert);
         $stmt2->bind_param("ssss", $depName, $mgrSSN, $startDate, $location);
 
-        if ($stmt2->execute()) {
+        try {
+            $stmt2->execute();
+
             $message = "Department added successfully.";
             $color = "#73AF6F";
-        } else {
-            $message = "Failed to add department: " . $stmt2->error;
-            $color = "#FF3838";
+
+        } catch (mysqli_sql_exception $e) {
+
+            $error = $e->getMessage();
+
+            if (str_contains($error, "for key 'departments.Mgr_SSN'")) {
+                $message = "Error: This manager SSN is already assigned to another department.";
+            } 
+            elseif (str_contains($error, "for key 'departments.Dname'")) {
+                $message = "Error: This department name already exists.";
+            } 
+            else {
+                $message = "Database Error: " . $error;
+            }
         }
     }
 }

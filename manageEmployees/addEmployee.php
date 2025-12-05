@@ -1,4 +1,6 @@
 <?php
+mysqli_report(MYSQLI_REPORT_OFF);
+
 if ($_SERVER['HTTP_HOST'] === 'localhost') {
     $servername = "localhost";
     $username   = "root";
@@ -17,61 +19,92 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+$message = "";
+$color = "#FF3838";
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
-    $ssn         = $_POST['empSSN'];
-    $fullName    = $_POST['empFullName'];
+    $ssn         = trim($_POST['empSSN']);
+    $fullName    = trim($_POST['empFullName']);
     $bdate       = $_POST['empBdate'];
-    $address     = $_POST['empAddress'];
-    $sex         = $_POST['empSex'];
+    $address     = trim($_POST['empAddress']);
+    $sex         = trim($_POST['empSex']);
     $salary      = $_POST['empSalary'];
-    $job         = $_POST['empJob'];
-    $phone       = $_POST['empPhone'];
+    $job         = trim($_POST['empJob']);
+    $phone       = trim($_POST['empPhone']);
     $department  = $_POST['empDepartment'];
-    $supervisor  = $_POST['empSupervisor'];
+    $supervisor  = trim($_POST['empSupervisor']);
 
-    $nameParts = explode(" ", trim($fullName));
-
-    $fname = $nameParts[0] ?? "";
-    $minit = isset($nameParts[1]) ? substr($nameParts[1], 0, 1) : "";
-    $lname = $nameParts[2] ?? "";
-
-    $sql = "INSERT INTO employees 
-            (SSN, Fname, Minit, Lname, Bdate, Address, Sex, Salary, JobTitle, Dno, SuperSSN, Phone)
-            VALUES 
-            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    $stmt = $conn->prepare($sql);
-
-    if (!$stmt) {
-        die("Prepare failed: " . $conn->error);
-    }
-
-    $stmt->bind_param(
-        "sssssssdsiss",
-        $ssn,
-        $fname,
-        $minit,
-        $lname,
-        $bdate,
-        $address,
-        $sex,
-        $salary,
-        $job,
-        $department,
-        $supervisor,
-        $phone
-    );
-
-    // Execute and show result
-        if ($stmt->execute()) {
-            $color = "#73AF6F";
-            $message = "Employee added successfully!";
+    if (strlen($ssn) !== 14) {
+        $message = "SSN must be exactly 14 characters.";
+    } elseif (!ctype_digit($ssn)) {
+        $message = "SSN must contain only digits.";
+    } elseif (strlen($phone) !== 13 || !ctype_digit($phone)) {
+        $message = "Phone must be exactly 13 digits.";
+    } elseif (!empty($supervisor) && (strlen($supervisor) !== 14 || !ctype_digit($supervisor))) {
+        $message = "Supervisor SSN must be exactly 14 digits";
+    } elseif (!in_array($sex, ['Male', 'Female'])) {
+        $message = "Sex must be 'Male' or 'Female'.";
+    } else {
+        $nameParts = explode(" ", $fullName);
+        if (count($nameParts) < 2) {
+            $message = "Full name must contain at least first and last name.";
         } else {
-            $color = "#FF3838";
-            $message = "Error: " . $stmt->error;
+            $fname = $nameParts[0];
+            $minit = isset($nameParts[1]) ? substr($nameParts[1], 0, 1) : "";
+            $lname = $nameParts[2] ?? $nameParts[1];
+
+            if (!empty($supervisor)) {
+                if ($ssn === $supervisor) {
+                    $message = "Employee cannot be their own supervisor.";
+                } else {
+                    $check = $conn->prepare("SELECT SSN FROM employees WHERE SSN = ?");
+                    $check->bind_param("s", $supervisor);
+                    $check->execute();
+                    $check->store_result();
+                    if ($check->num_rows === 0) {
+                        $message = "Supervisor SSN does not exist in database.";
+                    }
+                    $check->close();
+                }
+            }
+
+            if (empty($message)) {
+                $sql = "INSERT INTO employees 
+                        (SSN, Fname, Minit, Lname, Bdate, Address, Sex, Salary, JobTitle, Dno, SuperSSN, Phone)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $stmt = $conn->prepare($sql);
+                if (!$stmt) {
+                    $message = "Prepare failed: " . $conn->error;
+                } else {
+                    $stmt->bind_param(
+                        "sssssssdsiss",
+                        $ssn,
+                        $fname,
+                        $minit,
+                        $lname,
+                        $bdate,
+                        $address,
+                        $sex,
+                        $salary,
+                        $job,
+                        $department,
+                        $supervisor,
+                        $phone
+                    );
+
+                    if ($stmt->execute()) {
+                        $color = "#73AF6F";
+                        $message = "Employee added successfully!";
+                    } else {
+                        $color = "#FF3838";
+                        $message = "Insert failed: " . $stmt->error;
+                    }
+                }
+            }
         }
+    }
 }
+
 ?>
 
 
